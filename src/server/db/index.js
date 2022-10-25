@@ -7,16 +7,20 @@ import makeQueries from "./queries.js";
 
 const client = new Client(config.dbConfig);
 
-const query = (text, params, callback) => {
+const query = async (text, params) => {
   const start = Date.now();
-  return client.query(text, params, (err, res) => {
+  try {
+    const result = await client.query(text, params);
     const duration = Date.now() - start;
-    console.log("executed query", { text, duration, rows: res.rowCount });
-    callback(err, res);
-  });
+    console.log("executed query", { text, duration, rows: result.rowCount });
+    return result;
+  } catch (e) {
+    console.log("failed query", { text });
+    throw new Error(e);
+  }
 };
 
 let commands = makeCommands(query);
 let queries = makeQueries(query);
 
-export default { commands, queries, client };
+export { commands, queries, client };

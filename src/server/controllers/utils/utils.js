@@ -8,4 +8,6 @@ const isValid = (attributes, constraints) => {
   }
 };
 
-export { isValid };
+const hashString = (string) => {};
+
+export { isValid, hashString };

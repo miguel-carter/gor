@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import routes from "./routes/index.js";
-import db from "./db/index.js";
+import { client } from "./db/index.js";
 
 export default function () {
   let server;
@@ -21,7 +21,7 @@ export default function () {
     server.listen(port, async () => {
       console.log(`!!! Server listening on http://${hostname} on ${port}`);
       try {
-        await db.client.connect();
+        await client.connect();
         console.log("!!! Connection established with database");
       } catch (e) {
         console.error(e);
