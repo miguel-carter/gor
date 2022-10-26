@@ -2,6 +2,7 @@ export default {
   env: process.env || {},
   port: process.env.PORT || 3000,
   hostname: process.env.HOSTNAME || "localhost",
+  privateKey: process.env.PRIVATEKEY || "privatekey",
   dbConfig: {
     user: process.env.DBUSER || "",
     host: process.env.DBHOST || "",

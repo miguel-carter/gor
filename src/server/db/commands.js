@@ -1,7 +1,7 @@
 export default function (query) {
   const insertNewUser = async ({ username, password }) => {
     try {
-      const result = await query(
+      await query(
         `insert into gor.user(username, hashed_password) values($1, $2)`,
         [username, password]
       );
@@ -11,7 +11,19 @@ export default function (query) {
     }
   };
 
+  const appendTokenToUserTokens = async ({ token, username }) => {
+    try {
+      await query(
+        "update gor.user set tokens = array_append(tokens, $1) where username = $2",
+        [token, username]
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     insertNewUser,
+    appendTokenToUserTokens,
   };
 }
