@@ -41,4 +41,8 @@ const newJwt = (info) => {
   return jwt.sign(info, config.privateKey, { expiresIn: "30 days" });
 };
 
-export { isValid, hashString, newError, hashCompare, newJwt };
+const verifyJwt = (token) => {
+  return jwt.verify(token, config.privateKey);
+};
+
+export { isValid, hashString, newError, hashCompare, verifyJwt };
