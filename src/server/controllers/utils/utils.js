@@ -45,4 +45,4 @@ const verifyJwt = (token) => {
   return jwt.verify(token, config.privateKey);
 };
 
-export { isValid, hashString, newError, hashCompare, verifyJwt };
+export { isValid, hashString, newError, hashCompare, verifyJwt, newJwt };

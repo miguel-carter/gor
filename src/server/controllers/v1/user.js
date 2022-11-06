@@ -22,9 +22,7 @@ const login = async (req, res, next) => {
   if (isValid(req.body, constraints)) {
     try {
       const user = await queries.findUserByUsername(req.body.username);
-
       const { hashed_password, username } = user;
-
       const passwordIsValid = await hashCompare(
         req.body.password,
         hashed_password
@@ -34,7 +32,6 @@ const login = async (req, res, next) => {
         delete user.hashed_password;
         delete user.tokens;
         delete user.alternative_id;
-        delete user.id;
 
         const token = newJwt({ user });
 
@@ -44,7 +41,7 @@ const login = async (req, res, next) => {
           next(e);
         }
 
-        res.status(200).send({ access: token });
+        res.status(200).send({ token });
       } else {
         next(newError(401, "Invalid credentials"));
       }
