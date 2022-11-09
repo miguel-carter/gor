@@ -1,6 +1,5 @@
 import { isValid } from "../utils/utils.js";
 import { commands, queries } from "../../db/index.js";
-import e from "express";
 
 const newWorkoutForUser = async (req, res, next) => {
   const constraints = {
@@ -46,8 +45,9 @@ const getAllWorkoutsForUser = async (req, res, next) => {
           name: i.name,
           description: i.description,
           createdOn: i.created_on,
-          exercises: [
+          items: [
             {
+              id: i.item_id,
               name: i.exercise,
               repNumber: i.rep_number,
               setNumber: i.set_number,
@@ -59,7 +59,8 @@ const getAllWorkoutsForUser = async (req, res, next) => {
         });
       } else {
         const index = workouts.findIndex((w) => w.id == i.id);
-        workouts[index].exercises.push({
+        workouts[index].items.push({
+          id: i.item_id,
           name: i.exercise,
           repNumber: i.rep_number,
           setNumber: i.set_number,
@@ -75,4 +76,41 @@ const getAllWorkoutsForUser = async (req, res, next) => {
   }
 };
 
-export default { newWorkoutForUser, getAllWorkoutsForUser };
+const updateWorkoutForUser = async (req, res, next) => {
+  const constraints = {
+    id: {
+      presence: true,
+    },
+    name: {
+      presence: true,
+    },
+    description: {
+      presence: true,
+    },
+    items: {
+      presence: true,
+    },
+  };
+
+  if (isValid(req.body, constraints)) {
+    const { user } = req;
+    try {
+      await commands.updateWorkoutForUser({
+        ...req.body,
+        createdBy: user.id,
+      });
+
+      res.status(200).send();
+    } catch (e) {
+      next(e);
+    }
+  } else {
+    res.sendStatus(400);
+  }
+};
+
+export default {
+  newWorkoutForUser,
+  getAllWorkoutsForUser,
+  updateWorkoutForUser,
+};

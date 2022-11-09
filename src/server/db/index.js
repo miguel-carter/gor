@@ -12,11 +12,11 @@ const query = async (text, params) => {
   try {
     const result = await client.query(text, params);
     const duration = Date.now() - start;
-    console.log("executed query", {
-      text: text.replace("\n", ""),
-      duration,
-      rows: result.rowCount,
-    });
+    // console.log("executed query", {
+    //   text: text.replace("\n", ""),
+    //   duration,
+    //   rows: result.rowCount,
+    // });
     return result;
   } catch (e) {
     console.log("failed query", { text });

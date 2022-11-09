@@ -33,7 +33,7 @@ export default function (query) {
     try {
       const results = await query(
         `
-      select w.id, w.name, w.description, w.created_on, e.name as exercise, wi.rep_number, wi.set_number, wi.weight, wi.duration, m.name as target
+      select w.id, w.name, w.description, w.created_on, e.name as exercise, wi.rep_number, wi.set_number, wi.weight, wi.duration, wi.id as item_id, m.name as target
       from gor.workout w
       inner join gor.workout_item wi
       on w.id = wi.workout_id

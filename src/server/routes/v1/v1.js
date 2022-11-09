@@ -15,7 +15,8 @@ exercise.post("/exercise", exerciseController.newExercise);
 
 const workout = express.Router();
 workout.post("/workout", auth, workoutController.newWorkoutForUser);
-workout.get("/workouts", auth, workoutController.getAllWorkoutsForUser);
+workout.get("/workout", auth, workoutController.getAllWorkoutsForUser);
+workout.put("/workout", auth, workoutController.updateWorkoutForUser);
 
 const v1 = express.Router();
 v1.use("/v1", user);
